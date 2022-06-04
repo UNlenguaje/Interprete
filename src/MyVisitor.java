@@ -70,14 +70,16 @@ public class MyVisitor extends  LenguajeBaseVisitor{
 
     @Override
     public Object visitSi(LenguajeParser.SiContext ctx) {
-
         Boolean expre =(Boolean) visitExpre(ctx.expre());
         if (expre){
             for (int i = 0 ; i < ctx.sentencias().size();i++){
                 visitSentencias(ctx.sentencias(i));
             }
-        }else if (!ctx.else_().isEmpty()) {
+        }else if (ctx.else_().children != null) {
             visitElse(ctx.else_());
+            for (int i = 1 ; i < ctx.sentencias().size();i++){
+                visitSentencias(ctx.sentencias(i));
+            }
 
         } else{
             for (int i = 1 ; i < ctx.sentencias().size();i++){
@@ -90,6 +92,17 @@ public class MyVisitor extends  LenguajeBaseVisitor{
     @Override
     public Object visitSielse(LenguajeParser.SielseContext ctx) {
         visitSentencias(ctx.sentencias());
+        return ctx;
+    }
+
+    @Override
+    public Object visitMientras(LenguajeParser.MientrasContext ctx) {
+
+        Boolean expre =(Boolean) visitExpre(ctx.expre());
+        while(expre) {
+            visitSentencias(ctx.sentencias(0));
+            expre =(Boolean) visitExpre(ctx.expre());
+        }
         return ctx;
     }
 
@@ -138,8 +151,6 @@ public class MyVisitor extends  LenguajeBaseVisitor{
             System.out.println(ctx.getChild(i).getClass().getSimpleName().equals("OperContext") );
         }
 */
-        System.out.println();
-        System.out.println();
         //System.out.println(ctx.getChild(0));
 
         return valor;

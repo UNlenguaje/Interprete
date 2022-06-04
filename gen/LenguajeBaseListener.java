@@ -207,6 +207,18 @@ public class LenguajeBaseListener implements LenguajeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMientras(LenguajeParser.MientrasContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMientras(LenguajeParser.MientrasContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSi(LenguajeParser.SiContext ctx) { }
 	/**
 	 * {@inheritDoc}

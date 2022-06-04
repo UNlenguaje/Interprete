@@ -106,6 +106,12 @@ public interface LenguajeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSentencias(LenguajeParser.SentenciasContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LenguajeParser#mientras}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMientras(LenguajeParser.MientrasContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LenguajeParser#si}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

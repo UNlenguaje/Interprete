@@ -167,6 +167,16 @@ public interface LenguajeListener extends ParseTreeListener {
 	 */
 	void exitSentencias(LenguajeParser.SentenciasContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LenguajeParser#mientras}.
+	 * @param ctx the parse tree
+	 */
+	void enterMientras(LenguajeParser.MientrasContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LenguajeParser#mientras}.
+	 * @param ctx the parse tree
+	 */
+	void exitMientras(LenguajeParser.MientrasContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LenguajeParser#si}.
 	 * @param ctx the parse tree
 	 */

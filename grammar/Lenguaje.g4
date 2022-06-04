@@ -20,7 +20,7 @@ grammar Lenguaje;
     pc:               TK_PUNTO_y_coma|;
     sentencias:       ID idsentencia pc sentencias |
                         si |
-                        'mientras'  TK_PARENTESIS_IZQUIERDO expre  TK_PARENTESIS_DERECHO  TK_LLAVE_IZQUIERDA  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma? sentencias |
+                        mientras |
                         'repetir'  sentencias  'hasta'  TK_PARENTESIS_IZQUIERDO  expre  TK_PARENTESIS_DERECHO TK_PUNTO_y_coma?  sentencias |
                         'eval'  TK_LLAVE_IZQUIERDA caso  'sino'  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma?  sentencias |
                         'desde'  ID  TK_ASIGNACION  expre  'hasta'  expre  incremento  TK_LLAVE_IZQUIERDA  sentencias TK_LLAVE_DERECHA  TK_PUNTO_y_coma? sentencias |
@@ -28,7 +28,7 @@ grammar Lenguaje;
                         'leer' TK_PARENTESIS_IZQUIERDO leer TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias |
                         'dim' TK_PARENTESIS_IZQUIERDO leer TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias |
                         'cls' TK_PARENTESIS_IZQUIERDO TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias| funciones sentencias |;
-
+    mientras:         'mientras'  TK_PARENTESIS_IZQUIERDO expre  TK_PARENTESIS_DERECHO  TK_LLAVE_IZQUIERDA  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma? sentencias;
     si:               'si' TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO TK_LLAVE_IZQUIERDA sentencias else TK_LLAVE_DERECHA TK_PUNTO_y_coma? sentencias;
     idsentencia:      (TK_PUNTO ID)* asigid int| asigid expre? TK_CADENA?  | asigid TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO
                        (logic TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO)*|

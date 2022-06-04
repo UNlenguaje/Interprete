@@ -2,25 +2,20 @@ var a, n : numerico
 
 
 inicio
-    leer(a, n)
+    leer( n)
     //imprimir("Hola", a, b, c)
 
-    si ( n >= 5)
+    mientras ( n >= 5)
     {
         imprimir ("antes del si")
-        si ( n == 8){
-        imprimir ("segundo si" )
-        }
-        imprimir ("\n",n,"\n", a);
-        imprimir ("segundo");
 
-      sino
-      imprimir("antes")
-       si(n ==4){
-        imprimir("si en sino")
-       }
-       
+        si(n == 6){
+         imprimir("dentro del si")
+         sino
+          imprimir("dentro del sino")
+         }
 
+        leer(n)
     }
 
 fin
