@@ -70,29 +70,40 @@ public class MyVisitor extends  LenguajeBaseVisitor{
     @Override
     public Object visitSi(LenguajeParser.SiContext ctx) {
 
-        System.out.println(ctx.getText());
-
-        return super.visitSi(ctx);
+        Boolean expre =(Boolean) visitExpre(ctx.expre());
+        if (expre){
+            for (int i = 0 ; i < ctx.sentencias().size();i++)
+                visitSentencias(ctx.sentencias(i));
+        }else{
+            return visitChildren(ctx);
+        }
+        return ctx;
     }
 
     @Override
     public Object visitExpre(LenguajeParser.ExpreContext ctx) {
-
-
-        if (ctx.children == null) {
-            return super.visitExpre(ctx);
+        int var1 =0, var2 = 0;
+        if (table.get(ctx.getChild(0).getText()) != null){
+            var1 =Integer.valueOf((String) table.get(ctx.getChild(0).getText()));
         }
+        if (table.get(ctx.getChild(2).getText()) != null){
+            var2 =Integer.parseInt((String) table.get(ctx.getChild(2).getText()));
 
-        for (int i = 0; i < ctx.children.size(); i++) {
-
-            /*String token = ctx.children.get(i).getText();
-            if (table.get(token) !=  null) {
-                continue;
-            }*/
-            //System.out.println(visit(ctx.children.get(i)));
-            System.out.println(ctx.oper());
+        }else{
+            var2 =Integer.parseInt( ctx.getChild(2).getText());
 
         }
+        String oper = (String) visitOper(ctx.oper(0));
+       if ( oper == ">="){
+           return (var1 >=  var2);
+       }
+
+        System.out.println();
+        System.out.println();
+        //System.out.println(ctx.getChild(0));
+
+
+
 
         return super.visitExpre(ctx);
     }
@@ -136,5 +147,10 @@ public class MyVisitor extends  LenguajeBaseVisitor{
         }
 
         return super.visitOper(ctx);
+    }
+
+    @Override
+    public Object visitSentencias(LenguajeParser.SentenciasContext ctx) {
+        return super.visitSentencias(ctx);
     }
 }
