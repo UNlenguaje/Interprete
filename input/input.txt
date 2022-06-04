@@ -1,0 +1,13 @@
+var a, n : numerico
+
+
+inicio
+    leer(a, n)
+    //imprimir("Hola", a, b, c)
+
+    si ( n >= 1)
+    {
+        imprimir ("\n", a);
+    }
+
+fin
