@@ -8,12 +8,11 @@ inicio
     si ( n >= 1)
     {
         imprimir ("antes del si")
-        si ( n >= 5){
+        si ( n == 5){
         imprimir ("segundo si" )
         }
         imprimir ("\n",a, n);
         imprimir ("segundo");
-        leer (c)
     }
 
 fin

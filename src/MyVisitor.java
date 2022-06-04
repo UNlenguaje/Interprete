@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class MyVisitor extends  LenguajeBaseVisitor{
 
-    HashMap<String, Object> table = new HashMap<String, Object>();
+    HashMap<String, Object> table = new HashMap<>();
 
     @Override
     public Object visitVar(LenguajeParser.VarContext ctx) {
@@ -72,40 +72,70 @@ public class MyVisitor extends  LenguajeBaseVisitor{
 
         Boolean expre =(Boolean) visitExpre(ctx.expre());
         if (expre){
-            for (int i = 0 ; i < ctx.sentencias().size();i++)
+            for (int i = 0 ; i < ctx.sentencias().size();i++){
                 visitSentencias(ctx.sentencias(i));
+            }
         }else{
-            return visitChildren(ctx);
+            for (int i = 1 ; i < ctx.sentencias().size();i++){
+                visitSentencias(ctx.sentencias(i));
+            }
         }
         return ctx;
     }
 
     @Override
     public Object visitExpre(LenguajeParser.ExpreContext ctx) {
-        int var1 =0, var2 = 0;
-        if (table.get(ctx.getChild(0).getText()) != null){
-            var1 =Integer.valueOf((String) table.get(ctx.getChild(0).getText()));
+        Integer var1 = null, var2 = null;
+        String oper = null;
+        Boolean valor = null;
+
+        for (int i = 0 ; i < ctx.children.size(); i++ ){
+            if (var1 == null){
+
+                if (table.get(ctx.getChild(i).getText()) != null){
+
+                    var1 =Integer.valueOf((String) table.get(ctx.getChild(i).getText()));}
+                else {
+                    var1 = Integer.parseInt( ctx.getChild(i).getText());
+                }
+                if (i==0) valor = var1 != 0;
+            }else if (ctx.getChild(i).getClass().getSimpleName().equals("OperContext")){
+                oper = ctx.getChild(i).getText();
+
+            }else if (var2 == null){
+
+                if (table.get(ctx.getChild(i).getText()) != null){
+                    var2 =Integer.valueOf((String) table.get(ctx.getChild(i).getText()));}
+                else {
+                    var2 = Integer.parseInt( ctx.getChild(i).getText());
+                }
+                if (oper.equals(">=")){
+                    valor = var1 >= var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("==")){
+                    valor = var1 == var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }
+            }
+
+            }
+/*
+        for (int i = 0 ; i < ctx.children.size(); i++ ){
+            System.out.println(ctx.getChild(i).getClass().getSimpleName().equals("OperContext") );
         }
-        if (table.get(ctx.getChild(2).getText()) != null){
-            var2 =Integer.parseInt((String) table.get(ctx.getChild(2).getText()));
-
-        }else{
-            var2 =Integer.parseInt( ctx.getChild(2).getText());
-
-        }
-        String oper = (String) visitOper(ctx.oper(0));
-       if ( oper == ">="){
-           return (var1 >=  var2);
-       }
-
+*/
         System.out.println();
         System.out.println();
         //System.out.println(ctx.getChild(0));
 
+        return valor;
 
 
-
-        return super.visitExpre(ctx);
+        //return super.visitExpre(ctx);
     }
 
     @Override
