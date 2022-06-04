@@ -9,10 +9,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Descargas/antlr-4.10.1-complete.jar!/" />
+          <root url="jar://$USER_HOME$/OneDrive/Documentos/antlr jar/antlr-4.10.1-complete.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

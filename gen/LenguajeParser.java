@@ -1,4 +1,4 @@
-// Generated from /media/nico/Stive4/nicko/U/2022-I/UNlenguaje/Interprete/grammar/Lenguaje.g4 by ANTLR 4.10.1
+// Generated from C:/Users/de/Interprete/grammar\Lenguaje.g4 by ANTLR 4.10.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;

@@ -5,14 +5,22 @@ inicio
     leer(a, n)
     //imprimir("Hola", a, b, c)
 
-    si ( n >= 1)
+    si ( n >= 5)
     {
         imprimir ("antes del si")
-        si ( n == 5){
+        si ( n == 8){
         imprimir ("segundo si" )
         }
-        imprimir ("\n",a, n);
+        imprimir ("\n",n,"\n", a);
         imprimir ("segundo");
+
+      sino
+      imprimir("antes")
+       si(n ==4){
+        imprimir("si en sino")
+       }
+       
+
     }
 
 fin

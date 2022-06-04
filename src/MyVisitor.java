@@ -2,6 +2,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.prefs.Preferences;
 
 public class MyVisitor extends  LenguajeBaseVisitor{
 
@@ -75,11 +76,20 @@ public class MyVisitor extends  LenguajeBaseVisitor{
             for (int i = 0 ; i < ctx.sentencias().size();i++){
                 visitSentencias(ctx.sentencias(i));
             }
-        }else{
+        }else if (!ctx.else_().isEmpty()) {
+            visitElse(ctx.else_());
+
+        } else{
             for (int i = 1 ; i < ctx.sentencias().size();i++){
                 visitSentencias(ctx.sentencias(i));
             }
         }
+        return ctx;
+    }
+
+    @Override
+    public Object visitSielse(LenguajeParser.SielseContext ctx) {
+        visitSentencias(ctx.sentencias());
         return ctx;
     }
 
