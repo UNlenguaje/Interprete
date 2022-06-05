@@ -6,7 +6,7 @@ import java.util.prefs.Preferences;
 
 public class MyVisitor extends  LenguajeBaseVisitor{
 
-    HashMap<String, Object> table = new HashMap<>();
+    HashMap<String, String> table = new HashMap<>();
 
     @Override
     public Object visitVar(LenguajeParser.VarContext ctx) {
@@ -24,11 +24,30 @@ public class MyVisitor extends  LenguajeBaseVisitor{
     }
 
     @Override
+    public Object visitConst(LenguajeParser.ConstContext ctx) {
+
+        if (ctx.children == null) {
+            return super.visitConst(ctx);
+        }
+
+        table.put(ctx.getChild(0).toString() , ctx.getChild(2).toString() );
+        return super.visitConst(ctx);
+    }
+
+    @Override
     public Object visitIdsentencia(LenguajeParser.IdsentenciaContext ctx) {
 
-        Double valor = (Double) visitExpre(ctx.expre(0));
-        //System.out.println(ctx.getParent().getChild(0).getText());
-        table.replace(ctx.getParent().getChild(0).getText(), valor);
+        if(ctx.expre(0) == null) {
+            int value = (Integer) visitInt(ctx.int_());
+            table.replace(ctx.getParent().getChild(0).getText(), String.valueOf(value));
+        }/* else if (ctx.expre(0).TK_CADENA() != null) {
+
+            table.replace(ctx.getParent().getChild(0).getText(), ctx.expre(0).TK_CADENA().toString());
+            System.out.println(table.values());
+        }*/else{
+            Double valor = (Double) visitExpre(ctx.expre(0));
+            table.replace(ctx.getParent().getChild(0).getText(), valor.toString());
+        }
 
 
         return ctx;
@@ -43,6 +62,13 @@ public class MyVisitor extends  LenguajeBaseVisitor{
 
             String token = ctx.children.get(i).getText();
 
+            if(ctx.getChild(i).getClass().getSimpleName().equals("ExpreContext")){
+                double expresion = (Double)visitExpre(ctx.expre(0));
+                line += expresion;
+
+                continue;
+           }
+
             if (token.equals(",")) {
                 continue;
             } else {
@@ -55,9 +81,9 @@ public class MyVisitor extends  LenguajeBaseVisitor{
         }
 
         System.out.println(line.replace("\\n", "\n")
-                .replace("\"", "")
                 .replace("\\t", "\t")
-                .replace("\\r", "\r"));
+                .replace("\\r", "\r")
+                .replace("\"", ""));
 
         return super.visitImprimir(ctx);
     }
@@ -109,12 +135,48 @@ public class MyVisitor extends  LenguajeBaseVisitor{
     @Override
     public Object visitMientras(LenguajeParser.MientrasContext ctx) {
 
+        if (ctx.children == null) {
+            return super.visitMientras(ctx);
+        }
+
         Boolean expre =(Boolean) visitExpre(ctx.expre());
         while(expre) {
             visitSentencias(ctx.sentencias(0));
             expre =(Boolean) visitExpre(ctx.expre());
         }
+        return visitSentencias(ctx.sentencias(1));
+    }
+
+    @Override
+    public Object visitDesde(LenguajeParser.DesdeContext ctx) {
+
+        double h = (Double) visitExpre(ctx.expre(0));
+        double j =  (Double) visitExpre(ctx.expre(1));
+        double paso = (Double) visitExpre(ctx.incremento().expre());
+
+        table.replace(ctx.ID().getText(), String.valueOf(h));
+
+        if(paso > 0){
+            for (int i = (int) h ; i <= (int)j;i += (int)paso){
+                table.replace(ctx.ID().getText(), String.valueOf(i));
+                visitSentencias(ctx.sentencias(0));
+            }
+        }else{
+            for (int i = (int) h ; i >= (int)j;i += (int)paso){
+                table.replace(ctx.ID().getText(), String.valueOf(i));
+                visitSentencias(ctx.sentencias(0));
+            }
+        }
+        visitSentencias(ctx.sentencias(1));
+
         return ctx;
+    }
+
+    @Override
+    public Object visitInt(LenguajeParser.IntContext ctx) {
+        double entero =(Double)visitExpre(ctx.expre().expre(0));
+        int entero2 = (int)entero;
+        return entero2;
     }
 
     @Override
@@ -123,7 +185,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
         do{
             visitSentencias(ctx.sentencias(0));
             expre =(Boolean) visitExpre(ctx.expre());
-        }while(expre);
+        }while(!expre);
         return super.visitRepetir(ctx);
 
     }
@@ -137,15 +199,16 @@ public class MyVisitor extends  LenguajeBaseVisitor{
 
 
         for (int i = 0 ; i < ctx.children.size(); i++ ){
-            if (var1 == null && (i == 0)){
 
+            if (var1 == null && (i == 0)){
                 if (table.get(ctx.getChild(i).getText()) != null){
 
-                    var1 =Double.valueOf((String) table.get(ctx.getChild(i).getText()));}
+                    var1 =Double.parseDouble(table.get(ctx.getChild(i).getText()));}
                 else {
                     var1 = Double.parseDouble( ctx.getChild(i).getText());
                 }
                 if (i==0) valor = var1 != 0 ;
+
             }else if (ctx.getChild(i).getClass().getSimpleName().equals("OperContext")) {
                 oper = ctx.getChild(i).getText();
                 //System.out.println(var1 + " entra oper");
@@ -159,9 +222,9 @@ public class MyVisitor extends  LenguajeBaseVisitor{
                 }
 
                 if (table.get(ctx.getChild(i).getText()) != null){
-                    var2 =Double.valueOf((String) table.get(ctx.getChild(i).getText()));}
+                    var2 =Double.parseDouble(table.get(ctx.getChild(i).getText()));}
                 else {
-                    var2 = Double.parseDouble( ctx.getChild(i).getText());
+                    var2 = Double.parseDouble(ctx.getChild(i).getText());
                 }
                 if (oper.equals(">=")){
                     valor = var1 >= var2;
@@ -169,7 +232,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
                     var1 = null;
                     var2 = null;
                 }else if (oper.equals("==")){
-                    valor = var1 == var2;
+                    valor = var1.equals(var2) ;
                     oper = null;
                     var1 = null;
                     var2 = null;
@@ -189,7 +252,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
                     var1 = null;
                     var2 = null;
                 }else if (oper.equals("<>")){
-                    valor = var1 != var2;
+                    valor = !var1.equals(var2);
                     oper = null;
                     var1 = null;
                     var2 = null;
@@ -236,6 +299,9 @@ public class MyVisitor extends  LenguajeBaseVisitor{
         //System.out.println(ctx.getChild(0));
         if(resultado != null){
             return resultado;
+        } else if (var1 != null) {
+            return var1;
+
         }
         return valor;
 

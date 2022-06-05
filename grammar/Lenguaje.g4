@@ -5,14 +5,13 @@ grammar Lenguaje;
     prog:             'programa' ID| ;
     especificacion:   'var' var especificacion|'const' const especificacion|'tipos' tipos especificacion|;
     var:              ID (',' ID)* TK_DOS_PUNTOS rmt pc var|;
-    const:            ID TK_ASIGNACION const2 pc const|;
-    const2:           TK_NUMERO|TK_CADENA|'TRUE'|'FALSE'|'SI'|'NO';
+    const:            ID TK_ASIGNACION (TK_NUMERO|TK_CADENA|'TRUE'|'FALSE'|'SI'|'NO') pc const|;
     rmt:              tipodato |
                         'vector' TK_CORCHETE_IZQUIERDO vector TK_CORCHETE_DERECHO tipodato |
                         'matriz' TK_CORCHETE_IZQUIERDO matriz TK_CORCHETE_DERECHO tipodato |
                         'registro' registro;
     vector:          TK_NUMERO|ID|TK_MULTIPLICACION;
-    matriz:          TK_NUMERO (TK_COMA TK_NUMERO)* (TK_COMA TK_MULTIPLICACION)* | TK_MULTIPLICACION (TK_COMA TK_MULTIPLICACION)*  | expre;
+    matriz:          (TK_NUMERO | ID) (TK_COMA (TK_NUMERO | ID))* (TK_COMA TK_MULTIPLICACION)* | TK_MULTIPLICACION (TK_COMA (TK_MULTIPLICACION | ID | TK_NUMERO))*  | expre;
     matriz2:          TK_COMA matriz|;
     tipodato:         'registro' registro|'numerico'|'cadena'|'logico'|ID;
     registro:         TK_LLAVE_IZQUIERDA var TK_LLAVE_DERECHA;
@@ -20,6 +19,7 @@ grammar Lenguaje;
     pc:               TK_PUNTO_y_coma|;
     sentencias:       ID idsentencia pc sentencias |
                         si |
+                        funciones |
                         mientras |
                         repetir |
                         eval |
@@ -33,18 +33,19 @@ grammar Lenguaje;
     eval:             'eval'  TK_LLAVE_IZQUIERDA caso  'sino'  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma?  sentencias ;
     desde:            'desde'  ID  TK_ASIGNACION  expre  'hasta'  expre  incremento  TK_LLAVE_IZQUIERDA  sentencias TK_LLAVE_DERECHA  TK_PUNTO_y_coma? sentencias ;
     si:               'si' TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO TK_LLAVE_IZQUIERDA sentencias else TK_LLAVE_DERECHA TK_PUNTO_y_coma? sentencias;
-    idsentencia:      (TK_PUNTO ID)* asigid ('int' expre | expre)| asigid expre? TK_CADENA?  | asigid TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO
+    idsentencia:      (TK_PUNTO ID)* asigid int| asigid expre? TK_CADENA?  | asigid TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO
                        (logic TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO)*|
+                       TK_CORCHETE_IZQUIERDO matriz TK_CORCHETE_DERECHO asigid expre |
                       (TK_PUNTO ID)* TK_CORCHETE_IZQUIERDO vector TK_CORCHETE_DERECHO (TK_PUNTO ID)* asigid expre;
-    int:              'int' expre|expre;
+    int:              'int' expre;
     leer:             ref ID (TK_COMA ID)* (TK_DOS_PUNTOS tipodato)* TK_PUNTO_y_coma? leer|TK_CADENA|;
     leer2:            TK_CORCHETE_IZQUIERDO leer3 TK_CORCHETE_DERECHO|TK_COMA leer|;
     leer3:            ID|TK_NUMERO;
     //imprimir:         idV imprimir2|TK_NUMERO imprimir2|TK_CADENA imprimir2 | funciones;
-    imprimir:         (ID | TK_NUMERO | TK_CADENA | funciones) (TK_COMA (ID | TK_NUMERO | TK_CADENA | funciones))*;
+    imprimir:         (ID | TK_NUMERO | TK_CADENA | funciones | expre) (TK_COMA (ID | TK_NUMERO | expre |TK_CADENA | funciones))*;
     imprimir2:        TK_COMA imprimir|;
     asigid:           TK_DOS_PUNTOS|TK_ASIGNACION;
-    expre:            (ID | funciones) (oper ID | oper TK_NUMERO | oper funciones |oper TK_CADENA | TK_PUNTO ID (oper expre)*)*
+    expre:            (ID | funciones | TK_CADENA) (oper ID | oper TK_NUMERO | oper funciones |oper TK_CADENA | TK_PUNTO ID (oper expre)*)*
                       (TK_CORCHETE_IZQUIERDO (matriz | vector) TK_CORCHETE_DERECHO (oper TK_NUMERO)* (oper ID)*)? |
                       TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO (oper ID)* (oper TK_NUMERO)* (oper funciones)* (oper expre)* |
                       TK_NUMERO (oper ID)* (oper TK_NUMERO)* (oper funciones)* | TK_LLAVE_IZQUIERDA llaves TK_LLAVE_DERECHA|
@@ -81,7 +82,7 @@ grammar Lenguaje;
     idV:              ID idV2|'ascii' idV2;
     idV2:             TK_PARENTESIS_IZQUIERDO vectordef TK_PARENTESIS_DERECHO|TK_CORCHETE_IZQUIERDO vectordef TK_CORCHETE_DERECHO|TK_POTENCIACION vectordef|  ;
     vectordef:        TK_NUMERO|ID;
-    funciones:        ID TK_PARENTESIS_IZQUIERDO expre? argumentos? TK_PARENTESIS_DERECHO;
+    funciones:        ID TK_PARENTESIS_IZQUIERDO expre? (TK_COMA expre)* argumentos? TK_PARENTESIS_DERECHO;
 
 
     // TOKENS

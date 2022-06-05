@@ -46,12 +46,6 @@ public interface LenguajeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConst(LenguajeParser.ConstContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LenguajeParser#const2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConst2(LenguajeParser.Const2Context ctx);
-	/**
 	 * Visit a parse tree produced by {@link LenguajeParser#rmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
