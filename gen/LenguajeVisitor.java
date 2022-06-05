@@ -112,6 +112,24 @@ public interface LenguajeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMientras(LenguajeParser.MientrasContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LenguajeParser#repetir}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepetir(LenguajeParser.RepetirContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LenguajeParser#eval}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEval(LenguajeParser.EvalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LenguajeParser#desde}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDesde(LenguajeParser.DesdeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LenguajeParser#si}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -24,6 +24,17 @@ public class MyVisitor extends  LenguajeBaseVisitor{
     }
 
     @Override
+    public Object visitIdsentencia(LenguajeParser.IdsentenciaContext ctx) {
+
+        Double valor = (Double) visitExpre(ctx.expre(0));
+        //System.out.println(ctx.getParent().getChild(0).getText());
+        table.replace(ctx.getParent().getChild(0).getText(), valor);
+
+
+        return ctx;
+    }
+
+    @Override
     public Object visitImprimir(LenguajeParser.ImprimirContext ctx) {
 
         String line = "";
@@ -107,30 +118,50 @@ public class MyVisitor extends  LenguajeBaseVisitor{
     }
 
     @Override
+    public Object visitRepetir(LenguajeParser.RepetirContext ctx) {
+        Boolean expre =false;
+        do{
+            visitSentencias(ctx.sentencias(0));
+            expre =(Boolean) visitExpre(ctx.expre());
+        }while(expre);
+        return super.visitRepetir(ctx);
+
+    }
+
+
+    @Override
     public Object visitExpre(LenguajeParser.ExpreContext ctx) {
-        Integer var1 = null, var2 = null;
+        Double var1 = null, var2 = null, resultado = null;
         String oper = null;
         Boolean valor = null;
 
+
         for (int i = 0 ; i < ctx.children.size(); i++ ){
-            if (var1 == null){
+            if (var1 == null && (i == 0)){
 
                 if (table.get(ctx.getChild(i).getText()) != null){
 
-                    var1 =Integer.valueOf((String) table.get(ctx.getChild(i).getText()));}
+                    var1 =Double.valueOf((String) table.get(ctx.getChild(i).getText()));}
                 else {
-                    var1 = Integer.parseInt( ctx.getChild(i).getText());
+                    var1 = Double.parseDouble( ctx.getChild(i).getText());
                 }
-                if (i==0) valor = var1 != 0;
-            }else if (ctx.getChild(i).getClass().getSimpleName().equals("OperContext")){
+                if (i==0) valor = var1 != 0 ;
+            }else if (ctx.getChild(i).getClass().getSimpleName().equals("OperContext")) {
                 oper = ctx.getChild(i).getText();
+                //System.out.println(var1 + " entra oper");
 
-            }else if (var2 == null){
+
+            } else if (var2 == null){
+
+                if(oper != null && var1 == null){
+                    var1 = resultado;
+
+                }
 
                 if (table.get(ctx.getChild(i).getText()) != null){
-                    var2 =Integer.valueOf((String) table.get(ctx.getChild(i).getText()));}
+                    var2 =Double.valueOf((String) table.get(ctx.getChild(i).getText()));}
                 else {
-                    var2 = Integer.parseInt( ctx.getChild(i).getText());
+                    var2 = Double.parseDouble( ctx.getChild(i).getText());
                 }
                 if (oper.equals(">=")){
                     valor = var1 >= var2;
@@ -142,8 +173,59 @@ public class MyVisitor extends  LenguajeBaseVisitor{
                     oper = null;
                     var1 = null;
                     var2 = null;
+                }else if (oper.equals("<=")){
+                    valor = var1 <= var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("<")){
+                    valor = var1 < var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals(">")){
+                    valor = var1 > var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("<>")){
+                    valor = var1 != var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("+")){
+                    resultado = var1 + var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("-")){
+                    resultado = var1 - var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("*")){
+                    resultado = var1 * var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("/")){
+                    resultado = var1 / var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("%")){
+                    resultado = var1 % var2;
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
+                }else if (oper.equals("^")){
+                    resultado = Math.pow(var1 ,var2);
+                    oper = null;
+                    var1 = null;
+                    var2 = null;
                 }
             }
+
 
             }
 /*
@@ -152,8 +234,11 @@ public class MyVisitor extends  LenguajeBaseVisitor{
         }
 */
         //System.out.println(ctx.getChild(0));
-
+        if(resultado != null){
+            return resultado;
+        }
         return valor;
+
 
 
         //return super.visitExpre(ctx);
@@ -202,6 +287,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
 
     @Override
     public Object visitSentencias(LenguajeParser.SentenciasContext ctx) {
+
         return super.visitSentencias(ctx);
     }
 }

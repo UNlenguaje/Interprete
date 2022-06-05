@@ -177,6 +177,36 @@ public interface LenguajeListener extends ParseTreeListener {
 	 */
 	void exitMientras(LenguajeParser.MientrasContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LenguajeParser#repetir}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepetir(LenguajeParser.RepetirContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LenguajeParser#repetir}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepetir(LenguajeParser.RepetirContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LenguajeParser#eval}.
+	 * @param ctx the parse tree
+	 */
+	void enterEval(LenguajeParser.EvalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LenguajeParser#eval}.
+	 * @param ctx the parse tree
+	 */
+	void exitEval(LenguajeParser.EvalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LenguajeParser#desde}.
+	 * @param ctx the parse tree
+	 */
+	void enterDesde(LenguajeParser.DesdeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LenguajeParser#desde}.
+	 * @param ctx the parse tree
+	 */
+	void exitDesde(LenguajeParser.DesdeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LenguajeParser#si}.
 	 * @param ctx the parse tree
 	 */

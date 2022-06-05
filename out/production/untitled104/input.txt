@@ -1,21 +1,10 @@
-var a, n : numerico
+var
+ n: numerico
 
 
 inicio
-    leer( n)
-    //imprimir("Hola", a, b, c)
+    n = 10 * 4 +7 - 5
 
-    mientras ( n >= 5)
-    {
-        imprimir ("antes del si")
-
-        si(n == 6){
-         imprimir("dentro del si")
-         sino
-          imprimir("dentro del sino")
-         }
-
-        leer(n)
-    }
+   imprimir(n)
 
 fin

@@ -21,16 +21,19 @@ grammar Lenguaje;
     sentencias:       ID idsentencia pc sentencias |
                         si |
                         mientras |
-                        'repetir'  sentencias  'hasta'  TK_PARENTESIS_IZQUIERDO  expre  TK_PARENTESIS_DERECHO TK_PUNTO_y_coma?  sentencias |
-                        'eval'  TK_LLAVE_IZQUIERDA caso  'sino'  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma?  sentencias |
-                        'desde'  ID  TK_ASIGNACION  expre  'hasta'  expre  incremento  TK_LLAVE_IZQUIERDA  sentencias TK_LLAVE_DERECHA  TK_PUNTO_y_coma? sentencias |
+                        repetir |
+                        eval |
+                        desde |
                         'imprimir' TK_PARENTESIS_IZQUIERDO imprimir TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias |
                         'leer' TK_PARENTESIS_IZQUIERDO leer TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias |
                         'dim' TK_PARENTESIS_IZQUIERDO leer TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias |
                         'cls' TK_PARENTESIS_IZQUIERDO TK_PARENTESIS_DERECHO TK_PUNTO_y_coma? sentencias| funciones sentencias |;
     mientras:         'mientras'  TK_PARENTESIS_IZQUIERDO expre  TK_PARENTESIS_DERECHO  TK_LLAVE_IZQUIERDA  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma? sentencias;
+    repetir:          'repetir'  sentencias  'hasta'  TK_PARENTESIS_IZQUIERDO  expre  TK_PARENTESIS_DERECHO TK_PUNTO_y_coma?  sentencias;
+    eval:             'eval'  TK_LLAVE_IZQUIERDA caso  'sino'  sentencias  TK_LLAVE_DERECHA TK_PUNTO_y_coma?  sentencias ;
+    desde:            'desde'  ID  TK_ASIGNACION  expre  'hasta'  expre  incremento  TK_LLAVE_IZQUIERDA  sentencias TK_LLAVE_DERECHA  TK_PUNTO_y_coma? sentencias ;
     si:               'si' TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO TK_LLAVE_IZQUIERDA sentencias else TK_LLAVE_DERECHA TK_PUNTO_y_coma? sentencias;
-    idsentencia:      (TK_PUNTO ID)* asigid int| asigid expre? TK_CADENA?  | asigid TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO
+    idsentencia:      (TK_PUNTO ID)* asigid ('int' expre | expre)| asigid expre? TK_CADENA?  | asigid TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO
                        (logic TK_PARENTESIS_IZQUIERDO expre TK_PARENTESIS_DERECHO)*|
                       (TK_PUNTO ID)* TK_CORCHETE_IZQUIERDO vector TK_CORCHETE_DERECHO (TK_PUNTO ID)* asigid expre;
     int:              'int' expre|expre;
