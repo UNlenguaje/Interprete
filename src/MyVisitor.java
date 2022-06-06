@@ -1,12 +1,25 @@
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.prefs.Preferences;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 
 public class MyVisitor extends  LenguajeBaseVisitor{
 
     HashMap<String, String> table = new HashMap<>();
+
+    FileWriter archivo = null;
+    BufferedWriter writer = null;
 
     @Override
     public Object visitVar(LenguajeParser.VarContext ctx) {
@@ -40,11 +53,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
         if(ctx.expre(0) == null) {
             int value = (Integer) visitInt(ctx.int_());
             table.replace(ctx.getParent().getChild(0).getText(), String.valueOf(value));
-        }/* else if (ctx.expre(0).TK_CADENA() != null) {
-
-            table.replace(ctx.getParent().getChild(0).getText(), ctx.expre(0).TK_CADENA().toString());
-            System.out.println(table.values());
-        }*/else{
+        } else {
             Double valor = (Double) visitExpre(ctx.expre(0));
             table.replace(ctx.getParent().getChild(0).getText(), valor.toString());
         }
@@ -80,10 +89,32 @@ public class MyVisitor extends  LenguajeBaseVisitor{
             }
         }
 
-        System.out.println(line.replace("\\n", "\n")
+        /*System.out.println(line.replace("\\n", "\n")
                 .replace("\\t", "\t")
                 .replace("\\r", "\r")
-                .replace("\"", ""));
+                .replace("\"", ""));*/
+        try {
+
+            archivo = new FileWriter("04.out", true);
+
+            writer = new BufferedWriter(archivo);
+
+
+            writer.write(line.replace("\\n", "\n")
+                    .replace("\\t", "\t")
+                    .replace("\\r", "\r")
+                    .replace("\"", ""));
+
+            writer.newLine();
+
+            writer.flush();
+
+
+        }catch (IOException e){
+            e.getCause();
+        }
+
+
 
         return super.visitImprimir(ctx);
     }
@@ -345,7 +376,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
             return "-";
         }
         if (ctx.TK_SUMA()!= null) {
-            return "<";
+            return "+";
         }
 
         return super.visitOper(ctx);

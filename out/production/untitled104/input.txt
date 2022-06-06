@@ -1,46 +1,29 @@
-programa alfil
-const
-TAM_TAB = 8
-var
-f_inic, c_inic : numerico
-var
-k : numerico
-inicio
-imprimir("\nIngrese fila y columna donde se encuentra el alfil:")
-f_inic = 1
-c_inic = 6 
-k = 1
-mientras ( k <= TAM_TAB )
-{
-marcar (f_inic - k, c_inic - k)
-marcar (f_inic - k, c_inic + k)
-marcar (f_inic + k, c_inic - k)
-marcar (f_inic + k, c_inic + k)
-k = k + 1
-}
-impr_tablero()
-fin
+//Programa que simula una calculadora con dos numeros
 
-subrutina marcar (f, c : numerico)
-inicio
-si ( (f > 0 and f <= TAM_TAB) and
-(c > 0 and c <= TAM_TAB)
-)
-{
-T [f, c] = 'P'
-}
-fin
+var a, b, opc: numerico
 
-subrutina impr_tablero()
-var
-f, c : numerico
 inicio
-desde f = 1 hasta TAM_TAB
-{
-imprimir ("\n")
-desde c = 1 hasta TAM_TAB
-{
-imprimir ( T [f, c], ' ')
-}
-}
+    imprimir ("Escriba el primer numero")
+    leer(a)
+    imprimir(a)
+    imprimir ("Seleccione\n1. Sumar \n2.Restar \n3.Multiplicar \n4.Dividir \n5.Potencia \n6.Modulo")
+    leer(opc)
+    imprimir(opc)
+    imprimir ("Escriba el segundo numero")
+    leer(b)
+    imprimir(b)
+
+    si (opc == 1) {
+        imprimir("La suma es : ", a + b)
+    }si (opc == 2) {
+             imprimir("La resta es : ", a - b)
+    }si (opc == 3) {
+             imprimir("La multiplicacion es : ", a * b)
+    }si (opc == 4) {
+             imprimir("La division es : ", a / b)
+    }si (opc == 5) {
+             imprimir("La potencia es : ", a ^ b)
+    }si (opc == 6) {
+             imprimir("El modulo es : ", a % b)
+    }
 fin

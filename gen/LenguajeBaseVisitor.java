@@ -1,4 +1,4 @@
-// Generated from C:/Users/de/Interprete/grammar\Lenguaje.g4 by ANTLR 4.10.1
+// Generated from C:/Users/Juan/Downloads/Interprete/grammar\Lenguaje.g4 by ANTLR 4.10.1
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

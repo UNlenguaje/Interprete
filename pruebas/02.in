@@ -1,0 +1,21 @@
+/*
+    Programa que dice si un numero es par o impar
+*/
+
+const
+    n = 100
+    i = 1.0
+
+var k : numerico
+
+inicio
+    mientras (i < n) {
+        k = i % 2
+        si (k == 0) {
+            imprimir("par   : ", i)
+            sino
+            imprimir("impar : ", i)
+        }
+        i = i + 1
+    }
+fin

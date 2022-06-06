@@ -1,0 +1,20 @@
+//Programa para la calcular la serie de Fibonnaci hasta n
+programa secuencia_fibonnaci
+var
+    n, f0, f1, temp : numerico
+
+inicio
+    leer(n)
+    f0 = 0
+    f1 = 1
+    temp = 0
+    imprimir(temp)
+    imprimir(f1)
+    desde k=1 hasta n paso 1 {
+        temp = f0 + f1
+        f0 = f1
+        f1 = temp
+        imprimir(temp)
+    }
+
+fin
