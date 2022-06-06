@@ -95,7 +95,7 @@ public class MyVisitor extends  LenguajeBaseVisitor{
                 .replace("\"", ""));*/
         try {
 
-            archivo = new FileWriter("04.out", true);
+            archivo = new FileWriter("10.out", true);
 
             writer = new BufferedWriter(archivo);
 

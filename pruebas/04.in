@@ -1,0 +1,18 @@
+programa cuatro
+
+var a, b : numerico
+
+inicio
+    imprimir("Ingrese el primer numero")
+    leer(a)
+    imprimir(a)
+    imprimir("Ingrese el segundo numero")
+    leer(b)
+    imprimir(b)
+
+    si (a > b){
+        imprimir("El numero mayor es: ", a)
+        sino
+        imprimir("El numero mayor es: ", b)
+    }
+fin

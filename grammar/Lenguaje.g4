@@ -42,7 +42,7 @@ grammar Lenguaje;
     leer2:            TK_CORCHETE_IZQUIERDO leer3 TK_CORCHETE_DERECHO|TK_COMA leer|;
     leer3:            ID|TK_NUMERO;
     //imprimir:         idV imprimir2|TK_NUMERO imprimir2|TK_CADENA imprimir2 | funciones;
-    imprimir:         (ID | TK_NUMERO | TK_CADENA | funciones | expre) (TK_COMA (ID | TK_NUMERO | expre |TK_CADENA | funciones))*;
+    imprimir:         (ID | TK_NUMERO | TK_CADENA | funciones | expre) (TK_COMA (ID | TK_NUMERO | TK_CADENA | funciones | expre))*;
     imprimir2:        TK_COMA imprimir|;
     asigid:           TK_DOS_PUNTOS|TK_ASIGNACION;
     expre:            (ID | funciones | TK_CADENA) (oper ID | oper TK_NUMERO | oper funciones |oper TK_CADENA | TK_PUNTO ID (oper expre)*)*
